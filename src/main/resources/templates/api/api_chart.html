@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<th:block layout:fragment="css">
+    <style>
+        #year_value{width:200px; height:30px; border-radius:15px; border:1px solid #000; text-align:center; font-size:17px; float:left;}
+        input[type="submit"]{
+            width:100px; height:30px; background:#1d35a6; border-radius:15px; border:none; font-size:16px; color:#fff; float:left; margin-left:15px;}
+        }
+
+    </style>
+</th:block>
+<body>
+    <form method="POST" action="/api">
+        <div class="form-group">
+            <select id="year_value" name="year_value">
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+            </select>
+        </div>
+        <input type="submit" value="CLick"/>
+    </form>
+</body>
+</html>
