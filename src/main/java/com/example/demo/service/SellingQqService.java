@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.SellngSearchDto;
 import com.example.demo.entity.SellngQq;
 import com.example.demo.repository.SellingQqRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,10 +118,17 @@ public class SellingQqService {
         }
     }
 
-    public List<SellngQq> findSellng(){
+    @Transactional(readOnly = true)
+    public Page<SellngQq> findSellng(SellngSearchDto sellngSearchDto,Pageable pageable){
 
-        List<SellngQq> sellngQqs = sellingQqRepository.findAll();
 
-        return sellngQqs;
+        return sellingQqRepository.getSellPage(sellngSearchDto, pageable);
+        //Page<SellngQq> resutl = sellingQqRepository.findAll(pageable);
+
+        //List<SellngQq> sellngQqs = sellingQqRepository.findAll();
+
+        //return resutl;
     }
+
+
 }

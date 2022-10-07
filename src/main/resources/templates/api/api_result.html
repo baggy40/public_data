@@ -3,9 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
+<!-- 사용자 스크립트 추가 -->
 <script th:inline="javascript">
+
+         $(document).ready(function(){
+            $("#searchBtn").on("click",function(e){
+                e.preventDefault();
+                page(0);
+            });
+         });
+
+         function page(page){
+            var searchDateType = $("#searchDateType").val();
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+            location.href="/apiname/"+page;
+         }
 
          let articleArray = new Array();
          let article = new Object();
@@ -23,9 +40,9 @@
          let time_17_sell = 0;
          let cot_30 = 0;
          let cot_40 = 0;
-         let total = /*[[${#lists.size(apiModel)}]]*/;
+         let total = /*[[${article.getSize()}]]*/;
 
-         /*[# th:each="article : ${apiModel}"]*/
+         /*[# th:each="article : ${article.getContent()}"]*/
             tue +=  parseInt(/*[[${article.TUES_SELNG_AMT}]]*/);
             fri +=  parseInt(/*[[${article.FRI_SELNG_AMT}]]*/);
             mon +=  parseInt(/*[[${article.MON_SELNG_AMT}]]*/);
@@ -107,13 +124,38 @@
     <style>
         *{margin:0 auto; padding:0; list-style:none;}
         a{text-decoration:none; color:#000;}
-        .chart{width:100%;}
+
+        nav{width:100%;border-bottom:1px solid #ddd;}
+        .container-fluid{width:1300px; height:60px; background:#fff; }
+        .logo{float:left; margin-left:30px; font-size:20px; font-weight:bold; line-height:60px;}
+        .navbar-collapse{float:left;}
+        .navbavUl{margin-left:200px;}
+        .navbavUl > li{float:left; line-height:60px; text-align:center; width:200px;}
+
+        .navbavUl > li:hover > a{color:#777;}
+
+        .chart{width:100%; margin-top:50px;}
         #piechart_3d{width:50%; float:left;}
         #dual_x_div{width:50%; float:left;}
         table{border-collapse:collapse; width:6000px;}
         th{border-top:1px solid #ddd; border-bottom:1px solid #ddd;
         padding:10px;}
         td{border-bottom:1px solid #ddd; padding:10px; }
+
+        .nation_page{margin-top:50px; height:60px; }
+        .pagination_ul{margin-left:600px;}
+        .pagination_ul > li{float:left; width:40px; border:1px solid #eee;
+        line-height:40px; text-align:center; font-size:17px;}
+        .pagination_ul > li:hover{background:#eee;}
+        .pagination_ul > li:first-child{width:100px;}
+        .pagination_ul > li:last-child{width:100px;}
+        .pagination_ul > li > a{}
+        .page-item.on{display:none;}
+
+        .form-inline{}
+
+        select{margin-right:10px;}
+
     </style>
 </th:block>
 <body>
@@ -122,6 +164,7 @@
     <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
     <div id="dual_x_div" style="width: 900px; height: 500px;"></div>
 </div>
+<form th:action="@{'/apiname/'}" method="get" role="form" th:object="${article}">
   <table>
       <thead>
           <tr align="center">
@@ -163,7 +206,7 @@
           </tr>
       </thead>
       <tbody>
-            <tr align="center" th:each="list : ${apiModel}">
+            <tr align="center" th:each="list : ${article.getContent()}">
                 <td><span th:text="${list.id}"></span></td>
                 <td><span th:text="${list.STDR_YY_CD}"></span></td>
                 <td><span th:text="${list.STDR_QU_CD}"></span></td>
@@ -202,5 +245,49 @@
             </tr>
       </tbody>
   </table>
+
+    <div class="nation_page" th:with="start=${(article.number/maxPage)*maxPage + 1},
+        end=(${(article.totalPages == 0 ) ? 1 : (start + (maxPage -1)
+        < article.totalPages ? start + (maxPage -1) : article.totalPages)})">
+        <ul class="pagination_ul">
+
+            <li class="page-item" th:classappend="${article.isFirst()}?'on'">
+                <a th:onclick="'javascript:page(' + ${article.number - 1} + ')'" aria-label='Previous' class="page_link">
+                    <span aria-hidden='true'>Previous</span>
+                </a>
+            </li>
+
+            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
+                th:classappend="${article.number eq page-1}?'active':''">
+                <a th:onclick="'javascript:page(' + ${page -1} + ')'"
+                   th:inline="text" class="page_link">[[${page}]]</a>
+            </li>
+
+            <li class="page-item" th:classappend="${article.isLast()}?'on'">
+                <a th:onclick="'javascript:page(' + ${article.number + 1} + ')'" aria-label='Next' class="page_link">
+                    <span aria-hidden='true'>Next</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="form-inline" th:object="${sellngSearchDto}">
+        <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
+            <option value="all">전체기간</option>
+            <option value="1d">1일</option>
+            <option value="1w">1주</option>
+            <option value="1m">1개월</option>
+            <option value="6m">6개월</option>
+        </select>
+        <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+            <option value="itemNm">상품명</option>
+            <option value="createBy">등록자</option>
+        </select>
+        <input th:field="*{searchQuery}" type="text" class="form-control"
+               placeholder="검색어를 입력해주세요">
+        <button id="searchBtn" type="submit" class="btn">검색</button>
+    </div>
+
+</form>
 </body>
 </html>
