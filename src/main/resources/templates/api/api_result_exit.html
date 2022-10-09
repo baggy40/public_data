@@ -25,42 +25,49 @@
                            +"&searchQuery="+searchQuery;
          }
 
-     let articleArray = new Array();
-     let article = new Object();
-     let tue = 0;
-     let fri =0;
-     let mon = 0;
+         let articleArray = new Array();
+         let article = new Object();
+         let tue = 0;
+         let fri =0;
+         let mon = 0;
 
-     let fml_sell = 0;
-     let ml_sell = 0;
-     let mon_sell = 0;
-     let tue_sell = 0;
-     let ml_sell_cot = 0;
-     let fml_sell_cot = 0;
-     let time_14_sell = 0;
-     let time_17_sell = 0;
-     let cot_30 = 0;
-     let cot_40 = 0;
-    let total = /*[[${article.getSize()}]]*/;
+         let fml_sell = [];
+         let ml_sell = [];
+         let mon_sell = [];
+         let tue_sell = [];
+         let ml_sell_cot = [];
+         let fml_sell_cot = [];
+         let time_14_sell = [];
+         let time_17_sell = [];
+         let cot_30 = [];
+         let cot_40 = [];
+         let total = /*[[${article.getSize()}]]*/;
 
-    console.log(/*[[${article.getSize()}]]*/);
+            tue =  /*[[${avgDto.AGRDE_10_SELNG_AMT_29}]]*/;
+            fri =  /*[[${avgDto.AGRDE_20_SELNG_AMT_30}]]*/;
+            mon =  /*[[${avgDto.AGRDE_30_SELNG_AMT_31}]]*/;
+            console.log(/*[[${avgDto.AGRDE_10_SELNG_AMT_29}]]*/);
+            console.log(/*[[${avgDto.AGRDE_20_SELNG_AMT_30}]]*/);
+            console.log(/*[[${avgDto.AGRDE_30_SELNG_AMT_31}]]*/);
+            console.log(/*[[${avgDto.year_value_1}]]*/);
+            console.log(/*[[${avgDto}]]*/);
 
-  /*[# th:each="article : ${article.getContent()}"]*/
-            tue +=  parseInt(/*[[${article.TUES_SELNG_AMT}]]*/);
-            fri +=  parseInt(/*[[${article.FRI_SELNG_AMT}]]*/);
-            mon +=  parseInt(/*[[${article.MON_SELNG_AMT}]]*/);
-
-            fml_sell = parseInt(/*[[${article.FML_SELNG_AMT}]]*/); //여성 매출 금액
-            ml_sell = parseInt(/*[[${article.ML_SELNG_AMT}]]*/); //남성 매출 금액
-            mon_sell = parseInt(/*[[${article.AGRDE_10_SELNG_AMT}]]*/);  //월요일 매출 건수
-            tue_sell = parseInt(/*[[${article.AGRDE_20_SELNG_AMT}]]*/); //화요일 매출 건수
-            ml_sell_cot = parseInt(/*[[${article.AGRDE_40_SELNG_AMT}]]*/); //남성 매출 건수
-            fml_sell_cot = parseInt(/*[[${article.AGRDE_50_SELNG_AMT}]]*/); //여성 매출 건수
-            time_14_sell = parseInt(/*[[${article.TMZON_14_17_SELNG_AMT}]]*/); //시간대 매출 금액
-            time_17_sell = parseInt(/*[[${article.TMZON_11_14_SELNG_AMT}]]*/); //시간대 매출 금액
-            cot_30 = parseInt(/*[[${article.TMZON_17_21_SELNG_AMT}]]*/); //30대 매출 건수
-            cot_40 = parseInt(/*[[${article.TMZON_21_24_SELNG_AMT}]]*/); //40대 매출 건수
+         /*[# th:each="article, state : ${avgDto}"]*/
+            fml_sell.push(parseInt(/*[[${article.FML_SELNG_AMT_28}]]*/));
+            ml_sell.push(parseInt(/*[[${article.ML_SELNG_AMT_27}]]*/)); //남성 매출 금액
+            mon_sell.push(parseInt(/*[[${article.AGRDE_10_SELNG_AMT_29}]]*/));  //월요일 매출 건수
+            tue_sell.push(parseInt(/*[[${article.AGRDE_20_SELNG_AMT_30}]]*/)); //화요일 매출 건수
+            ml_sell_cot.push(parseInt(/*[[${article.AGRDE_40_SELNG_AMT_32}]]*/)); //남성 매출 건수
+            fml_sell_cot.push(parseInt(/*[[${article.AGRDE_50_SELNG_AMT_33}]]*/)); //여성 매출 건수
+            time_14_sell.push(parseInt(/*[[${article.TMZON_14_17_SELNG_AMT_24}]]*/)); //시간대 매출 금액
+            time_17_sell.push(parseInt(/*[[${article.TMZON_11_14_SELNG_AMT_23}]]*/)); //시간대 매출 금액
+            cot_30.push(parseInt(/*[[${article.TMZON_17_21_SELNG_AMT_25}]]*/)); //30대 매출 건수
+            cot_40.push(parseInt(/*[[${article.TMZON_21_24_SELNG_AMT_26}]]*/)); //40대 매출 건수
          /*[/]*/
+
+         console.log(fml_sell_cot[0]);
+         console.log(fml_sell_cot[1]);
+
 
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart);
@@ -92,11 +99,11 @@
        function barChart() {
         var data = new google.visualization.arrayToDataTable([
           ['Galaxy', 'Distance', 'Brightness'],
-          ['Canis Major Dwarf', fml_sell, ml_sell],
-          ['Sagittarius Dwarf', mon_sell, tue_sell],
-          ['Ursa Major II Dwarf', ml_sell_cot, fml_sell_cot],
-          ['Lg. Magellanic Cloud', time_14_sell, time_17_sell],
-          ['Bootes I', cot_30, cot_40]
+          ['Canis Major Dwarf', fml_sell[0], fml_sell[1]],
+          ['Sagittarius Dwarf', mon_sell[0], mon_sell[1]],
+          ['Ursa Major II Dwarf', ml_sell_cot[0], ml_sell_cot[1]],
+          ['Lg. Magellanic Cloud', time_14_sell[0], time_14_sell[1]],
+          ['Bootes I', cot_30[0], cot_30[1]]
         ]);
 
         var options = {
@@ -194,40 +201,40 @@
         <tbody>
         <tr align="center" th:each="list : ${article.getContent()}">
             <td><span th:text="${list.id}"></span></td>
-            <td><span th:text="${list.STDR_YY_CD}"></span></td>
-            <td><span th:text="${list.STDR_QU_CD}"></span></td>
-            <td><span th:text="${list.TRDAR_SE_CD}"></span></td>
-            <td><span th:text="${list.TRDAR_SE_CD_NM}"></span></td>
-            <td><span th:text="${list.TRDAR_CD}"></span></td>
-            <td><span th:text="${list.TRDAR_CD_NM}"></span></td>
-            <td><span th:text="${list.SVC_INDUTY_CD}"></span></td>
-            <td><span th:text="${list.SVC_INDUTY_CD_NM}"></span></td>
-            <td><span th:text="${list.AGRDE_10_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.AGRDE_20_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.AGRDE_30_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.AGRDE_40_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.AGRDE_50_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.AGRDE_60_ABOVE_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.FML_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.FRI_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.MDWK_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.ML_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.MON_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.SAT_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.STOR_CO}"></span></td>
-            <td><span th:text="${list.SUN_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.THSMON_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.THSMON_SELNG_CO}"></span></td>
-            <td><span th:text="${list.THUR_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_00_06_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_06_11_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_11_14_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_14_17_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_17_21_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TMZON_21_24_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.TUES_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.WED_SELNG_AMT}"></span></td>
-            <td><span th:text="${list.WKEND_SELNG_AMT}"></span></td>
+            <td><span th:text="${list.STDR_YY_CD_2}"></span></td>
+            <td><span th:text="${list.STDR_QU_CD_3}"></span></td>
+            <td><span th:text="${list.TRDAR_SE_CD_4}"></span></td>
+            <td><span th:text="${list.TRDAR_SE_CD_NM_5}"></span></td>
+            <td><span th:text="${list.TRDAR_CD_6}"></span></td>
+            <td><span th:text="${list.TRDAR_CD_NM_7}"></span></td>
+            <td><span th:text="${list.SVC_INDUTY_CD_8}"></span></td>
+            <td><span th:text="${list.SVC_INDUTY_CD_NM_9}"></span></td>
+            <td><span th:text="${list.AGRDE_10_SELNG_AMT_29}"></span></td>
+            <td><span th:text="${list.AGRDE_20_SELNG_AMT_30}"></span></td>
+            <td><span th:text="${list.AGRDE_30_SELNG_AMT_31}"></span></td>
+            <td><span th:text="${list.AGRDE_40_SELNG_AMT_32}"></span></td>
+            <td><span th:text="${list.AGRDE_50_SELNG_AMT_33}"></span></td>
+            <td><span th:text="${list.AGRDE_60_ABOVE_SELNG_AMT_34}"></span></td>
+            <td><span th:text="${list.FML_SELNG_AMT_28}"></span></td>
+            <td><span th:text="${list.FRI_SELNG_AMT_18}"></span></td>
+            <td><span th:text="${list.MDWK_SELNG_AMT_12}"></span></td>
+            <td><span th:text="${list.ML_SELNG_AMT_27}"></span></td>
+            <td><span th:text="${list.MON_SELNG_AMT_14}"></span></td>
+            <td><span th:text="${list.SAT_SELNG_AMT_19}"></span></td>
+            <td><span th:text="${list.STOR_CO_35}"></span></td>
+            <td><span th:text="${list.SUN_SELNG_AMT_20}"></span></td>
+            <td><span th:text="${list.THSMON_SELNG_AMT_10}"></span></td>
+            <td><span th:text="${list.THSMON_SELNG_CO_11}"></span></td>
+            <td><span th:text="${list.THUR_SELNG_AMT_17}"></span></td>
+            <td><span th:text="${list.TMZON_00_06_SELNG_AMT_21}"></span></td>
+            <td><span th:text="${list.TMZON_06_11_SELNG_AMT_22}"></span></td>
+            <td><span th:text="${list.TMZON_11_14_SELNG_AMT_23}"></span></td>
+            <td><span th:text="${list.TMZON_14_17_SELNG_AMT_24}"></span></td>
+            <td><span th:text="${list.TMZON_17_21_SELNG_AMT_25}"></span></td>
+            <td><span th:text="${list.TMZON_21_24_SELNG_AMT_26}"></span></td>
+            <td><span th:text="${list.TUES_SELNG_AMT_15}"></span></td>
+            <td><span th:text="${list.WED_SELNG_AMT_16}"></span></td>
+            <td><span th:text="${list.WKEND_SELNG_AMT_13}"></span></td>
         </tr>
         </tbody>
     </table>

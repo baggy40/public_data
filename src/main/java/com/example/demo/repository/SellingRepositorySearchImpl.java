@@ -41,9 +41,9 @@ public class SellingRepositorySearchImpl implements SellingRepositorySearch{
 
     private BooleanExpression searchByLike(String searchBy, String searchQuery){
         if(StringUtils.equals("TRDAR_SE_CD_NM",searchBy)){
-            return QSellngQq.sellngQq.TRDAR_SE_CD_NM.like("%"+searchQuery + "%");
+            return QSellngQq.sellngQq.TRDAR_SE_CD_NM_5.like("%"+searchQuery + "%");
         }else if(StringUtils.equals("SVC_INDUTY_CD_NM", searchBy)){
-            return QSellngQq.sellngQq.SVC_INDUTY_CD_NM.like("%"+searchQuery+"%");
+            return QSellngQq.sellngQq.SVC_INDUTY_CD_NM_9.like("%"+searchQuery+"%");
         }
         return null;
     }

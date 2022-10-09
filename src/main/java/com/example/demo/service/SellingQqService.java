@@ -39,8 +39,6 @@ public class SellingQqService {
         urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
         urlBuilder.append("/" + URLEncoder.encode(year_value,"UTF-8"));
 
-        System.out.println("year_value-------------"+year_value);
-
         URL url = new URL(urlBuilder.toString());
        /* HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -75,43 +73,43 @@ public class SellingQqService {
         for(int i=0; i<infoArr.size(); i++){
             JSONObject tmp = (JSONObject) infoArr.get(i);
             SellngQq infoObj = new SellngQq();
-            infoObj.setYear_value(year_value);
-            infoObj.setSTDR_YY_CD((String) tmp.get("STDR_YY_CD"));
-            infoObj.setSTDR_QU_CD((String)tmp.get("STDR_QU_CD"));
-            infoObj.setTRDAR_SE_CD((String)tmp.get("TRDAR_SE_CD"));
-            infoObj.setTRDAR_SE_CD_NM((String)tmp.get("TRDAR_SE_CD_NM"));
-            infoObj.setTRDAR_CD((String)tmp.get("TRDAR_CD"));
-            infoObj.setTRDAR_CD_NM((String)tmp.get("TRDAR_CD_NM"));
-            infoObj.setSVC_INDUTY_CD((String)tmp.get("SVC_INDUTY_CD"));
-            infoObj.setSVC_INDUTY_CD_NM((String)tmp.get("SVC_INDUTY_CD_NM"));
-            infoObj.setTHSMON_SELNG_AMT((String)tmp.get("THSMON_SELNG_AMT"));
+            infoObj.setYear_value_1(year_value);
+            infoObj.setSTDR_YY_CD_2((String) tmp.get("STDR_YY_CD"));
+            infoObj.setSTDR_QU_CD_3((String)tmp.get("STDR_QU_CD"));
+            infoObj.setTRDAR_SE_CD_4((String)tmp.get("TRDAR_SE_CD"));
+            infoObj.setTRDAR_SE_CD_NM_5((String)tmp.get("TRDAR_SE_CD_NM"));
+            infoObj.setTRDAR_CD_6((String)tmp.get("TRDAR_CD"));
+            infoObj.setTRDAR_CD_NM_7((String)tmp.get("TRDAR_CD_NM"));
+            infoObj.setSVC_INDUTY_CD_8((String)tmp.get("SVC_INDUTY_CD"));
+            infoObj.setSVC_INDUTY_CD_NM_9((String)tmp.get("SVC_INDUTY_CD_NM"));
+            infoObj.setTHSMON_SELNG_AMT_10((String)tmp.get("THSMON_SELNG_AMT"));
             //infoObj.setTHSMON_SELNG_AMT(Integer.parseInt(tmp.get("THSMON_SELNG_AMT")==null? String.valueOf(0) :String.valueOf(tmp.get("THSMON_SELNG_AMT"))));
             //infoObj.setTHSMON_SELNG_AMT(Optional.ofNullable(tmp.get("THSMON_SELNG_AMT")).map(Integer::valueOf).orElse(0));
-            infoObj.setTHSMON_SELNG_CO((String)tmp.get("THSMON_SELNG_CO"));
-            infoObj.setMDWK_SELNG_AMT((String)tmp.get("MDWK_SELNG_AMT"));
-            infoObj.setWKEND_SELNG_AMT((String)tmp.get("WKEND_SELNG_AMT"));
-            infoObj.setMON_SELNG_AMT((String)tmp.get("MON_SELNG_AMT"));
-            infoObj.setTUES_SELNG_AMT((String)tmp.get("TUES_SELNG_AMT"));
-            infoObj.setWED_SELNG_AMT((String)tmp.get("WED_SELNG_AMT"));
-            infoObj.setTHUR_SELNG_AMT((String)tmp.get("THUR_SELNG_AMT"));
-            infoObj.setFRI_SELNG_AMT((String)tmp.get("FRI_SELNG_AMT"));
-            infoObj.setSAT_SELNG_AMT((String)tmp.get("SAT_SELNG_AMT"));
-            infoObj.setSUN_SELNG_AMT((String)tmp.get("SUN_SELNG_AMT"));
-            infoObj.setTMZON_00_06_SELNG_AMT((String)tmp.get("TMZON_00_06_SELNG_AMT"));
-            infoObj.setTMZON_06_11_SELNG_AMT((String)tmp.get("TMZON_06_11_SELNG_AMT"));
-            infoObj.setTMZON_11_14_SELNG_AMT((String)tmp.get("TMZON_11_14_SELNG_AMT"));
-            infoObj.setTMZON_14_17_SELNG_AMT((String)tmp.get("TMZON_14_17_SELNG_AMT"));
-            infoObj.setTMZON_17_21_SELNG_AMT((String)tmp.get("TMZON_17_21_SELNG_AMT"));
-            infoObj.setTMZON_21_24_SELNG_AMT((String)tmp.get("TMZON_21_24_SELNG_AMT"));
-            infoObj.setML_SELNG_AMT((String)tmp.get("ML_SELNG_AMT"));
-            infoObj.setFML_SELNG_AMT((String)tmp.get("FML_SELNG_AMT"));
-            infoObj.setAGRDE_10_SELNG_AMT((String)tmp.get("AGRDE_10_SELNG_AMT"));
-            infoObj.setAGRDE_20_SELNG_AMT((String)tmp.get("AGRDE_20_SELNG_AMT"));
-            infoObj.setAGRDE_30_SELNG_AMT((String)tmp.get("AGRDE_30_SELNG_AMT"));
-            infoObj.setAGRDE_40_SELNG_AMT((String)tmp.get("AGRDE_40_SELNG_AMT"));
-            infoObj.setAGRDE_50_SELNG_AMT((String)tmp.get("AGRDE_50_SELNG_AMT"));
-            infoObj.setAGRDE_60_ABOVE_SELNG_AMT((String)tmp.get("AGRDE_60_ABOVE_SELNG_AMT"));
-            infoObj.setSTOR_CO((String)tmp.get("STOR_CO"));
+            infoObj.setTHSMON_SELNG_CO_11((String)tmp.get("THSMON_SELNG_CO"));
+            infoObj.setMDWK_SELNG_AMT_12((String)tmp.get("MDWK_SELNG_AMT"));
+            infoObj.setWKEND_SELNG_AMT_13((String)tmp.get("WKEND_SELNG_AMT"));
+            infoObj.setMON_SELNG_AMT_14((String)tmp.get("MON_SELNG_AMT"));
+            infoObj.setTUES_SELNG_AMT_15((String)tmp.get("TUES_SELNG_AMT"));
+            infoObj.setWED_SELNG_AMT_16((String)tmp.get("WED_SELNG_AMT"));
+            infoObj.setTHUR_SELNG_AMT_17((String)tmp.get("THUR_SELNG_AMT"));
+            infoObj.setFRI_SELNG_AMT_18((String)tmp.get("FRI_SELNG_AMT"));
+            infoObj.setSAT_SELNG_AMT_19((String)tmp.get("SAT_SELNG_AMT"));
+            infoObj.setSUN_SELNG_AMT_20((String)tmp.get("SUN_SELNG_AMT"));
+            infoObj.setTMZON_00_06_SELNG_AMT_21((String)tmp.get("TMZON_00_06_SELNG_AMT"));
+            infoObj.setTMZON_06_11_SELNG_AMT_22((String)tmp.get("TMZON_06_11_SELNG_AMT"));
+            infoObj.setTMZON_11_14_SELNG_AMT_23((String)tmp.get("TMZON_11_14_SELNG_AMT"));
+            infoObj.setTMZON_14_17_SELNG_AMT_24((String)tmp.get("TMZON_14_17_SELNG_AMT"));
+            infoObj.setTMZON_17_21_SELNG_AMT_25((String)tmp.get("TMZON_17_21_SELNG_AMT"));
+            infoObj.setTMZON_21_24_SELNG_AMT_26((String)tmp.get("TMZON_21_24_SELNG_AMT"));
+            infoObj.setML_SELNG_AMT_27((String)tmp.get("ML_SELNG_AMT"));
+            infoObj.setFML_SELNG_AMT_28((String)tmp.get("FML_SELNG_AMT"));
+            infoObj.setAGRDE_10_SELNG_AMT_29((String)tmp.get("AGRDE_10_SELNG_AMT"));
+            infoObj.setAGRDE_20_SELNG_AMT_30((String)tmp.get("AGRDE_20_SELNG_AMT"));
+            infoObj.setAGRDE_30_SELNG_AMT_31((String)tmp.get("AGRDE_30_SELNG_AMT"));
+            infoObj.setAGRDE_40_SELNG_AMT_32((String)tmp.get("AGRDE_40_SELNG_AMT"));
+            infoObj.setAGRDE_50_SELNG_AMT_33((String)tmp.get("AGRDE_50_SELNG_AMT"));
+            infoObj.setAGRDE_60_ABOVE_SELNG_AMT_34((String)tmp.get("AGRDE_60_ABOVE_SELNG_AMT"));
+            infoObj.setSTOR_CO_35((String)tmp.get("STOR_CO"));
 
 
             sellingQqRepository.save(infoObj);
