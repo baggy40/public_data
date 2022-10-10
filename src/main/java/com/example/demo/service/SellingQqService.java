@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.SellngSearchDto;
 import com.example.demo.entity.SellngQq;
+import com.example.demo.repository.SearchQueryRepository;
 import com.example.demo.repository.SellingQqRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -25,6 +26,8 @@ import java.util.List;
 public class SellingQqService {
 
     private final SellingQqRepository sellingQqRepository;
+
+    private final SearchQueryRepository searchQueryRepository;
 
 
     public void saveItemImg(String year_value) throws Exception{
@@ -126,6 +129,12 @@ public class SellingQqService {
         //List<SellngQq> sellngQqs = sellingQqRepository.findAll();
 
         //return resutl;
+    }
+
+    public List<SellngQq> searchEsllng(String year_value, String gubun_value,
+                             String store_value, String item_value1){
+
+        return searchQueryRepository.findSearFun(year_value,gubun_value,store_value,item_value1);
     }
 
 

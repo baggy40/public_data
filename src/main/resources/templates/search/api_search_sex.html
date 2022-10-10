@@ -9,7 +9,7 @@
 <!-- 사용자 스크립트 추가 -->
 <script th:inline="javascript">
 
-         $(document).ready(function(){
+          $(document).ready(function(){
             $("#searchBtn").on("click",function(e){
                 e.preventDefault();
 
@@ -31,6 +31,7 @@
          function page(page){
             var searchDateType = $("#searchDateType").val();
             var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
 
             location.href="/apiname/"+page;
          }
@@ -38,9 +39,6 @@
          let articleArray = new Array();
          let article = new Object();
          let year_value = [];
-         let tue = [];
-         let fri =[];
-         let mon = [];
 
          let fml_sell = [];
          let ml_sell = [];
@@ -48,27 +46,16 @@
          let tue_sell = [];
          let ml_sell_cot = [];
          let fml_sell_cot = [];
-         let time_14_sell = [];
-         let time_17_sell = [];
-         let cot_30 = [];
-         let cot_40 = [];
 
-        /*[# th:each="article, state : ${avgDto}"]*/
+
+        /*[# th:each="article : ${searchAvg}"]*/
             year_value.push(/*[[${article.year_value_1}]]*/);
-            tue.push(/*[[${article.AGRDE_10_SELNG_AMT_29}]]*/);
-            fri.push(/*[[${article.AGRDE_20_SELNG_AMT_30}]]*/);
-            mon.push(/*[[${article.AGRDE_30_SELNG_AMT_31}]]*/);
 
-            fml_sell.push(parseInt(/*[[${article.FML_SELNG_AMT_28}]]*/));
-            ml_sell.push(parseInt(/*[[${article.ML_SELNG_AMT_27}]]*/)); //남성 매출 금액
-            mon_sell.push(parseInt(/*[[${article.AGRDE_10_SELNG_AMT_29}]]*/));  //월요일 매출 건수
-            tue_sell.push(parseInt(/*[[${article.AGRDE_20_SELNG_AMT_30}]]*/)); //화요일 매출 건수
-            ml_sell_cot.push(parseInt(/*[[${article.AGRDE_40_SELNG_AMT_32}]]*/)); //남성 매출 건수
-            fml_sell_cot.push(parseInt(/*[[${article.AGRDE_50_SELNG_AMT_33}]]*/)); //여성 매출 건수
-            time_14_sell.push(parseInt(/*[[${article.TMZON_14_17_SELNG_AMT_24}]]*/)); //시간대 매출 금액
-            time_17_sell.push(parseInt(/*[[${article.TMZON_11_14_SELNG_AMT_23}]]*/)); //시간대 매출 금액
-            cot_30.push(parseInt(/*[[${article.TMZON_17_21_SELNG_AMT_25}]]*/)); //30대 매출 건수
-            cot_40.push(parseInt(/*[[${article.TMZON_21_24_SELNG_AMT_26}]]*/)); //40대 매출 건수
+            mon_sell.push(/*[[${article.FML_SELNG_AMT_28}]]*/);  //월요일 매출 건수
+            tue_sell.push(/*[[${article.ML_SELNG_AMT_27}]]*/); //화요일 매출 건수
+            ml_sell_cot.push(/*[[${article.MDWK_SELNG_AMT_12}]]*/); //남성 매출 건수
+            fml_sell_cot.push(/*[[${article.WKEND_SELNG_AMT_13}]]*/); //여성 매출 건수
+
          /*[/]*/
 
       google.charts.load("current", {packages:["corechart"]});
@@ -82,9 +69,8 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
-          ['Sleep', tue[0] ],
-          ['Work', fri[0] ],
-          ['Eat',  mon[0] ],
+          ['여성매출', mon_sell[0] ],
+          ['남성매출', tue_sell[0] ]
         ]);
 
         var options = {
@@ -99,11 +85,10 @@
        function barchart() {
         var data = new google.visualization.arrayToDataTable([
           ['', '', '', ''],
-          ['성별매출', fml_sell[0], fml_sell[1], fml_sell[2]],
-          ['월요일매출', mon_sell[0], mon_sell[1], mon_sell[2]],
-          ['남성매출', ml_sell_cot[0], ml_sell_cot[1], ml_sell_cot[2]],
-          ['14-17매출', time_14_sell[0], time_14_sell[1], time_14_sell[2]],
-          ['30대매출건수', cot_30[0], cot_30[1], cot_30[2]]
+          ['여성매출', mon_sell[0], mon_sell[1], mon_sell[2]],
+          ['남성매출', tue_sell[0], tue_sell[1], tue_sell[2]],
+          ['주중매출', ml_sell_cot[0], ml_sell_cot[1], ml_sell_cot[2]],
+          ['주말매출', fml_sell_cot[0], fml_sell_cot[1], fml_sell_cot[2]]
         ]);
 
         var options = {
@@ -122,22 +107,22 @@
 
       var data = new google.visualization.DataTable();
       data.addColumn('number', 'Day');
-      data.addColumn('number', year_value[0]);
-      data.addColumn('number', year_value[1]);
-      data.addColumn('number', year_value[2]);
+      data.addColumn('number', '여성매출');
+      data.addColumn('number', '남성매출');
+      data.addColumn('number', '주중매출');
 
       data.addRows([
-        [1, fml_sell[0],ml_sell[0],mon_sell[0]],
-        [2, fml_sell[1],ml_sell[1],mon_sell[1]],
-        [3, fml_sell[2],ml_sell[2],mon_sell[2]],
-        [4, fml_sell[3],ml_sell[3],mon_sell[3]],
-        [5, fml_sell[4],ml_sell[4],mon_sell[4]]
+        [1, mon_sell[0],tue_sell[0],ml_sell_cot[0]],
+        [2, mon_sell[1],tue_sell[1],ml_sell_cot[1]],
+        [3, mon_sell[2],tue_sell[2],ml_sell_cot[2]],
+        [4, mon_sell[3],tue_sell[3],ml_sell_cot[3]],
+        [5, mon_sell[4],tue_sell[4],ml_sell_cot[4]]
       ]);
 
       var options = {
         chart: {
-          title: 'Box Office Earnings in First Two Weeks of Opening',
-          subtitle: 'in millions of dollars (USD)'
+          title: '성별 매출 현황',
+          subtitle: '주중 매출, 주말 매출 현황'
         },
         axes: {
           x: {
@@ -169,7 +154,7 @@
         #piechart_3d{width:33%; float:left; height:350px;}
         #barchart_material{width:33%; float:left; height:350px;}
         #line_top_x{width:33%; float:left; height:350px;}
-        table{border-collapse:collapse; width:6000px; }
+        table{border-collapse:collapse; width:100%; }
         th{border-top:1px solid #ddd; border-bottom:1px solid #ddd;
         padding:10px;}
         td{border-bottom:1px solid #ddd; padding:10px; }
@@ -217,7 +202,6 @@
 </div>
 
 <div class="category">
-    <!--<form th:action="@{/apiSearch}"  method="post">-->
         <div class="year_group">
             <div class="year_txt">기준년 코드</div>
             <select class="form-control" id="year_value">
@@ -308,115 +292,35 @@
         <div class="category_button">
             <input id="searchBtn" value="검색">
         </div>
-  <!--  </form>-->
 </div>
 
-<form th:action="@{'/apiname/'}" method="get" role="form" th:object="${article}">
+<form th:action="@{'/apiname/'}" method="get" role="form">
   <table>
       <thead>
           <tr align="center">
               <th>번호</th>
               <th>기준_년_코드</th>
-              <th>기준_분기_코드</th>
-              <th>상권_구분_코드</th>
-              <th>상권_구분_코드_명</th>
-              <th>상권_코드</th>
               <th>상권_코드_명</th>
-              <th>서비스_업종_코드</th>
               <th>서비스_업종_코드_명</th>
-              <th>연령대_10_매출_금액</th>
-              <th>연령대_20_매출_금액</th>
-              <th>연령대_30_매출_금액</th>
-              <th>연령대_40_매출_금액</th>
-              <th>연령대_50_매출_금액</th>
-              <th>연령대_60_이상_매출_금액</th>
               <th>여성_매출_금액</th>
-              <th>금요일_매출_금액</th>
-              <th>주중_매출_금액</th>
               <th>남성_매출_금액</th>
-              <th>월요일_매출_금액</th>
-              <th>토요일_매출_금액</th>
-              <th>점포수</th>
-              <th>일요일_매출_금액</th>
-              <th>분기당_매출_금액</th>
-              <th>분기당_매출_건수</th>
-              <th>목요일_매출_금액</th>
-              <th>시간대_00~06_매출_금액</th>
-              <th>시간대_06~11_매출_금액</th>
-              <th>시간대_11~14_매출_금액</th>
-              <th>시간대_14~17_매출_금액</th>
-              <th>시간대_17~21_매출_금액</th>
-              <th>시간대_21~24_매출_금액</th>
-              <th>화요일_매출_금액</th>
-              <th>수요일_매출_금액</th>
+              <th>주중_매출_금액</th>
               <th>주말_매출_금액</th>
           </tr>
       </thead>
       <tbody>
-            <tr align="center" th:each="list : ${article.getContent()}">
+            <tr align="center" th:each="list : ${searchSell}">
                 <td><span th:text="${list.id}"></span></td>
                 <td><span th:text="${list.STDR_YY_CD_2}"></span></td>
-                <td><span th:text="${list.STDR_QU_CD_3}"></span></td>
-                <td><span th:text="${list.TRDAR_SE_CD_4}"></span></td>
-                <td><span th:text="${list.TRDAR_SE_CD_NM_5}"></span></td>
-                <td><span th:text="${list.TRDAR_CD_6}"></span></td>
                 <td><span th:text="${list.TRDAR_CD_NM_7}"></span></td>
-                <td><span th:text="${list.SVC_INDUTY_CD_8}"></span></td>
                 <td><span th:text="${list.SVC_INDUTY_CD_NM_9}"></span></td>
-                <td><span th:text="${list.AGRDE_10_SELNG_AMT_29}"></span></td>
-                <td><span th:text="${list.AGRDE_20_SELNG_AMT_30}"></span></td>
-                <td><span th:text="${list.AGRDE_30_SELNG_AMT_31}"></span></td>
-                <td><span th:text="${list.AGRDE_40_SELNG_AMT_32}"></span></td>
-                <td><span th:text="${list.AGRDE_50_SELNG_AMT_33}"></span></td>
-                <td><span th:text="${list.AGRDE_60_ABOVE_SELNG_AMT_34}"></span></td>
                 <td><span th:text="${list.FML_SELNG_AMT_28}"></span></td>
-                <td><span th:text="${list.FRI_SELNG_AMT_18}"></span></td>
-                <td><span th:text="${list.MDWK_SELNG_AMT_12}"></span></td>
                 <td><span th:text="${list.ML_SELNG_AMT_27}"></span></td>
-                <td><span th:text="${list.MON_SELNG_AMT_14}"></span></td>
-                <td><span th:text="${list.SAT_SELNG_AMT_19}"></span></td>
-                <td><span th:text="${list.STOR_CO_35}"></span></td>
-                <td><span th:text="${list.SUN_SELNG_AMT_20}"></span></td>
-                <td><span th:text="${list.THSMON_SELNG_AMT_10}"></span></td>
-                <td><span th:text="${list.THSMON_SELNG_CO_11}"></span></td>
-                <td><span th:text="${list.THUR_SELNG_AMT_17}"></span></td>
-                <td><span th:text="${list.TMZON_00_06_SELNG_AMT_21}"></span></td>
-                <td><span th:text="${list.TMZON_06_11_SELNG_AMT_22}"></span></td>
-                <td><span th:text="${list.TMZON_11_14_SELNG_AMT_23}"></span></td>
-                <td><span th:text="${list.TMZON_14_17_SELNG_AMT_24}"></span></td>
-                <td><span th:text="${list.TMZON_17_21_SELNG_AMT_25}"></span></td>
-                <td><span th:text="${list.TMZON_21_24_SELNG_AMT_26}"></span></td>
-                <td><span th:text="${list.TUES_SELNG_AMT_15}"></span></td>
-                <td><span th:text="${list.WED_SELNG_AMT_16}"></span></td>
+                <td><span th:text="${list.MDWK_SELNG_AMT_12}"></span></td>
                 <td><span th:text="${list.WKEND_SELNG_AMT_13}"></span></td>
             </tr>
       </tbody>
   </table>
-
-    <div class="nation_page" th:with="start=${(article.number/maxPage)*maxPage + 1},
-        end=(${(article.totalPages == 0 ) ? 1 : (start + (maxPage -1)
-        < article.totalPages ? start + (maxPage -1) : article.totalPages)})">
-        <ul class="pagination_ul">
-
-            <li class="page-item" th:classappend="${article.isFirst()}?'on'">
-                <a th:onclick="'javascript:page(' + ${article.number - 1} + ')'" aria-label='Previous' class="page_link">
-                    <span aria-hidden='true'>Previous</span>
-                </a>
-            </li>
-
-            <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"
-                th:classappend="${article.number eq page-1}?'active':''">
-                <a th:onclick="'javascript:page(' + ${page -1} + ')'"
-                   th:inline="text" class="page_link">[[${page}]]</a>
-            </li>
-
-            <li class="page_num" th:classappend="${article.isLast()}?'on'">
-                <a th:onclick="'javascript:page(' + ${article.number + 1} + ')'" aria-label='Next' class="page_link">
-                    <span aria-hidden='true'>Next</span>
-                </a>
-            </li>
-        </ul>
-    </div>
 
 </form>
 </body>

@@ -95,17 +95,34 @@ public class ApiExplorer {
         return "/api/api_result";
     }
 
-    @PostMapping(value = {"/apiSearch", "/apiSearch/{page}"})
-    public String apiSearch(Model model, String year_value, String gubun_value,
-                            String store_value, String item_value1, String item_value2){
+    @GetMapping(value = "/apiSearch")
+    public String apiSearch(Model model,@RequestParam(value="year_value", required = false) String year_value, @RequestParam(value = "gubun_value", required = false) String gubun_value,
+                            @RequestParam(value = "store_value",required = false) String store_value, @RequestParam(value = "item_value1", required = false) String item_value1){
 
         System.out.println("======================="+year_value);
         System.out.println("======================="+gubun_value);
         System.out.println("======================="+store_value);
         System.out.println("======================="+item_value1);
-        System.out.println("======================="+item_value2);
 
-        return "/api";
+        List<Avg_data> avg_data = avgDataService.searchFind();
+
+        List<SellngQq> sellngQqList =sellingQqService.searchEsllng(year_value,gubun_value, store_value,item_value1);
+
+        model.addAttribute("searchAvg",avg_data);
+        model.addAttribute("searchSell",sellngQqList);
+
+        if(item_value1.equals("old_sell")){
+            return "/search/api_search_age";
+        }else if(item_value1.equals("sex_sell")){
+            return "/search/api_search_sex";
+        }else if(item_value1.equals("part_sell")){
+            return "/search/api_search_part";
+        }else if(item_value1.equals("day_of_week")){
+            return "/search/api_search_day";
+        }else if(item_value1.equals("time_of_sell")){
+            return "/search/api_search_time";
+        }
+        return "/search/api_search_age";
     }
 
 }

@@ -43,4 +43,11 @@ public class AvgDataService {
 
         return avg_data;
     }
+
+    public List<Avg_data> searchFind() {
+
+        List<Avg_data> avg_data = avgDataRepository.findAll();
+
+        return avg_data;
+    }
 }
