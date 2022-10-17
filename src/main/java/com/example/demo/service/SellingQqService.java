@@ -39,7 +39,7 @@ public class SellingQqService {
         urlBuilder.append("/" +  URLEncoder.encode("json","UTF-8") );
         urlBuilder.append("/" + URLEncoder.encode("VwsmTrdarSelngQq","UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
         urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
-        urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+        urlBuilder.append("/" + URLEncoder.encode("1000","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
         urlBuilder.append("/" + URLEncoder.encode(year_value,"UTF-8"));
 
         URL url = new URL(urlBuilder.toString());

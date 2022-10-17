@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<!-- 사용자 스크립트 추가 -->
+<script th:inline="javascript">
+
+          $(document).ready(function(){
+            $("#searchBtn").on("click",function(e){
+                e.preventDefault();
+
+                console.log("start");
+                var year_value = $("#year_value").val();
+                var gubun_value = $("#gubun_value").val();
+                var store_value = $("#store_value").val();
+                var item_value1 = $("#item_value1").val();
+
+                 console.log(item_value1);
+
+                location.href="/popular/mon_goobul";
+
+            });
+         });
+
+         function page(page){
+            var searchDateType = $("#searchDateType").val();
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+            location.href="/apiname/"+page;
+         }
+
+         let articleArray = new Array();
+         let article = new Object();
+         let year_value;
+
+         let monGoobul_move_amount_10;
+         let monGoobul_move_amount_11;
+         let monGoobul_move_amount_12;
+         let monGoobul_in_10;
+         let monGoobul_in_11;
+         let monGoobul_in_12;
+         let monGoobul_out_10;
+         let monGoobul_out_11;
+         let monGoobul_out_12;
+         let monGoobul_in;
+         let monGoobul_out;
+
+            monGoobul_move_amount_10 =  /*[[${amonGoobul_move_amount_10}]]*/;
+            monGoobul_move_amount_11 =  /*[[${monGoobul_move_amount_11}]]*/;
+            monGoobul_move_amount_12 =  /*[[${monGoobul_move_amount_12}]]*/;
+            monGoobul_in_10 =  /*[[${monGoobul_in_10}]]*/;
+            monGoobul_in_11 =  /*[[${monGoobul_in_11}]]*/;
+            monGoobul_in_12 =  /*[[${monGoobul_in_12}]]*/;
+            monGoobul_out_10 =  /*[[${monGoobul_out_10}]]*/;
+            monGoobul_out_11 =  /*[[${monGoobul_out_11}]]*/;
+            monGoobul_out_12 =  /*[[${monGoobul_out_12}]]*/;
+
+            monGoobul_in = monGoobul_in_10+monGoobul_in_11+monGoobul_in_12;
+            monGoobul_out = monGoobul_out_10 + monGoobul_out_11 + monGoobul_out_12;
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.load("current", {packages:["bar"]});
+      google.charts.setOnLoadCallback(barchart);
+      google.charts.load('current', {'packages':['line']});
+      google.charts.setOnLoadCallback(lineChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['전입 계', monGoobul_in ],
+          ['전출 계', monGoobul_out ]
+        ]);
+
+        var options = {
+          title: "종로구 전체 전입/전출",
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+
+       function barchart() {
+        var data = new google.visualization.arrayToDataTable([
+          ['', '전입', '전입', '전출'],
+          ['전체', monGoobul_move_amount_10,monGoobul_move_amount_11, monGoobul_move_amount_12],
+          ['종로구 전입', monGoobul_in_10,monGoobul_in_11, monGoobul_in_12],
+          ['종로구 전출', monGoobul_out_10,monGoobul_out_11, monGoobul_out_12]
+        ]);
+
+        var options = {
+          chart: {
+            title: '종로구',
+            subtitle: '전체 인천/경기 그외'
+          },
+          bars: 'horizontal', // Required for Material Bar Charts.
+        };
+
+      var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+      chart.draw(data, options);
+    }
+
+function lineChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Day');
+      data.addColumn('number', '2021.10');
+      data.addColumn('number', '2021.11');
+      data.addColumn('number', '2021.12');
+
+      data.addRows([
+        [1, monGoobul_move_amount_10,monGoobul_in_10,monGoobul_out_10],
+        [2, monGoobul_move_amount_11,monGoobul_in_11,monGoobul_out_11],
+        [3, monGoobul_move_amount_12,monGoobul_in_12,monGoobul_out_12]
+      ]);
+
+      var options = {
+        chart: {
+          title: 'Box Office Earnings in First Two Weeks of Opening',
+          subtitle: 'in millions of dollars (USD)'
+        },
+        axes: {
+          x: {
+            0: {side: 'top'}
+          }
+        }
+      };
+
+      var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+      chart.draw(data, google.charts.Line.convertOptions(options));
+    }
+</script>
+<th:block layout:fragment="css">
+    <style>
+        *{margin:0 auto; padding:0; list-style:none;}
+        a{text-decoration:none; color:#000;}
+
+        nav{width:100%;border-bottom:1px solid #ddd;}
+        .container-fluid{width:1300px; height:60px; background:#fff; }
+        .logo{float:left; margin-left:30px; font-size:20px; font-weight:bold; line-height:60px;}
+        .navbar-collapse{float:left;}
+        .navbavUl{margin-left:200px;}
+        .navbavUl > li{float:left; line-height:60px; text-align:center; width:200px;}
+        .navbavUl > li:hover > a{color:#777;}
+
+        .top_bar{ width:100%; height:60px;
+        background-image: url([[@{/images/bar_top.png}]]);
+        }
+        .top_bar_txt{width:1300px; color:#fff;}
+        .top_bar_head{float:left; line-height:60px; font-size:20px; font-weight:bold;
+        margin-left:30px;}
+        .top_right{float:right; line-height:60px; margin-right:30px;
+        font-size:10px; margin-top:10px;}
+        .in_out{width:1300px;}
+        .in_out_txt{height:300px;}
+        .in_out_gubul{ float:left; width:50%; height:300px;
+         background-image: url([[@{/images/map.png}]]);
+         background-size:250px 250px;
+         background-repeat:no-repeat;
+         background-position:center center;
+         }
+        .in_out_city{ float:left; width:50%; height:300px;
+         background-image: url([[@{/images/map.png}]]);
+         background-size:200px 200px;
+         background-repeat:no-repeat;
+         background-position:center center;
+         }
+         .txt_for{float:left; margin-top:150px; margin-left:150px;
+         font-size:16px; color:#777;}
+         .txt_for1{float:left; margin-top:150px; margin-left:0;
+         font-size:16px; color:#777;}
+         .txt_left{float:left; margin-top:100px; margin-left:50px;}
+         .txt_left2{float:left;margin-top:100px; margin-left:20px;}
+         .txt_left3{float:left;margin-top:100px; margin-left:20px;}
+
+         .txt_right{float:left; margin-left:50px; margin-top:70px;}
+         .txt_right2{float:left; margin-left:10px; margin-top:70px;}
+         .txt_right_data{font-size:25px; color:#000; font-weight:bold;
+
+         }
+         .txt_up{margin-top:5px; color:#1d35a6; font-size:12px; }
+         .txt_down{margin-top:5px;color:#871f78; font-size:12px; }
+
+        .chart{width:100%; margin-top:50px; height:350px;}
+        #piechart_3d{width:33%; float:left; height:300px;
+        margin-top:20px;}
+        #barchart_material{width:33%; float:left; height:300px;}
+        #line_top_x{width:33%; float:left; height:300px}
+
+        .category{width:100%; height:50px;padding-top:30px; position:relative; }
+
+        .gubun_txt{margin-bottom:10px;font-size:12px; font-weight:bold;}
+        .item_group1{position:absolute; top:20px; right:400px;}
+        .item_txt1{margin-bottom:10px; font-size:12px; font-weight:bold;}
+
+        .form-control{width:200px; height:20px;text-align:center; color:#333; font-size:14px;}
+        .category_button{position:absolute; top:20px; right:300px;}
+        .category_button input{width:100px; height:20px; background:#777; color:#eee; border:none;
+        margin-top:27px; text-align:center;}
+
+        .nation_page{margin-top:50px; height:60px; width:100%; position:relative;}
+        .pagination_ul{position:absolute; left:50%; transform: translateX(-50%);}
+        .pagination_ul > li{float:left; width:40px; border:1px solid #eee;
+        line-height:40px; text-align:center; font-size:17px;}
+        .pagination_ul > li:hover{background:#eee;}
+        .pagination_ul > li:first-child{width:100px;}
+        .pagination_ul > li:last-child{width:100px;}
+        .pagination_ul > li > a{}
+        .page-item.on{display:none;}
+        .page_num.active {background:#ddd;}
+
+        .form-inline{}
+
+        select{margin-right:10px;}
+
+    </style>
+</th:block>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<div class="top_bar">
+    <div class="top_bar_txt">
+        <div class="top_bar_head">
+            서울 종로구 이동 경로
+        </div>
+        <div class="top_right">
+            Home > 서울빅데이터 > 서울 생활이동
+        </div>
+    </div>
+</div>
+
+<div class="in_out">
+    <div class="in_out_txt">
+        <div class="in_out_gubul">
+            <div class="txt_for1">● 구별/월별</div>
+            <div class="txt_left">
+                <div class="txt_up">종로구내이동 10/11/12</div>
+                <div class="txt_right_data" th:text="${monGoobul_move_amount_10}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_move_amount_11}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_move_amount_12}">
+                </div>
+            </div>
+            <div class="txt_left2">
+                <div class="txt_up" style="color:#871f78;">종로구전입 10/11/12</div>
+                <div class="txt_right_data" th:text="${monGoobul_in_10}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_in_11}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_in_12}">
+                </div>
+            </div>
+            <div class="txt_left3">
+                <div class="txt_up">종로구전출 10/11/12</div>
+                <div class="txt_right_data" th:text="${monGoobul_out_10}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_out_11}">
+                </div>
+                <div class="txt_right_data" th:text="${monGoobul_out_12}">
+                </div>
+            </div>
+        </div>
+        <div class="in_out_gubul">
+            <div class="txt_for">● 시도간</div>
+            <div class="txt_right">
+                <div class="txt_up">전체 전입</div>
+                <div class="txt_right_data" th:text="${in_city_amount}">
+                </div>
+                <div class="txt_up">인천/경기 전입</div>
+                <div class="txt_right_data" th:text="${in_city_incheon}">
+                </div>
+                <div class="txt_up">그외 시도 전입</div>
+                <div class="txt_right_data" th:text="${in_city_other}">
+                </div>
+            </div>
+            <div class="txt_right2">
+                <div class="txt_down">전체 전출</div>
+                <div class="txt_right_data" th:text="${out_city_amount}">
+                </div>
+                <div class="txt_down">인천/경기 전출</div>
+                <div class="txt_right_data" th:text="${out_city_incheon}">
+                </div>
+                <div class="txt_down">그외 시도 전출</div>
+                <div class="txt_right_data" th:text="${out_city_other}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chart">
+        <div id="piechart_3d"></div>
+        <div id="line_top_x"></div>
+        <div id="barchart_material"></div>
+    </div>
+</div>
+
+<div class="category">
+    <div class="item_group1">
+        <div class="item_txt1">인구이동</div>
+        <select class="form-control" id="item_value1">
+            <option value="old_sell">구별/월별</option>
+            <option value="sex_sell">시도간 인구이동</option>
+            <option value="part_sell">분기당매출,점포수</option>
+        </select>
+    </div>
+
+    <div class="category_button">
+        <input id="searchBtn" value="검색">
+    </div>
+</div>
+
+<!--<form th:action="@{'/apiname/'}" method="get" role="form">
+    <table>
+        <thead>
+        <tr align="center">
+            <th>번호</th>
+            <th>자치구별</th>
+            <th>구분별</th>
+            <th>전입</th>
+            <th>전출</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center" th:each="list : ${ciDoBetween}">
+            <td><span th:text="${list.id}"></span></td>
+            <td><span th:text="${list.ja_chi_gu}"></span></td>
+            <td><span th:text="${list.city_kyung}"></span></td>
+            <td><span th:text="${list.in_city}"></span></td>
+            <td><span th:text="${list.out_city}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+</form>-->
+</body>
+</html>

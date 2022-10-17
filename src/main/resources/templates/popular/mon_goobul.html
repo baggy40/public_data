@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<!-- 사용자 스크립트 추가 -->
+<script th:inline="javascript">
+
+          $(document).ready(function(){
+            $("#searchBtn").on("click",function(e){
+                e.preventDefault();
+
+                console.log("start");
+                var year_value = $("#year_value").val();
+                var gubun_value = $("#gubun_value").val();
+                var store_value = $("#store_value").val();
+                var item_value1 = $("#item_value1").val();
+
+                 console.log(item_value1);
+
+                location.href="/apiSearch?year_value="+year_value
+                + "&gubun_value=" +gubun_value
+                + "&store_value=" +store_value
+                + "&item_value1=" +item_value1;
+            });
+         });
+
+         function page(page){
+            var searchDateType = $("#searchDateType").val();
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+            location.href="/apiname/"+page;
+         }
+
+         let articleArray = new Array();
+         let article = new Object();
+         let year_value;
+
+         let amount_in;
+         let amount_out;
+         let incheon_in;
+         let incheon_out;
+         let other_in;
+         let other_out;
+
+
+        amount_in = (/*[[${ciDoBetween[0].in_city}]]*/);
+        amount_out = (/*[[${ciDoBetween[0].out_city}]]*/);
+        incheon_in = (/*[[${ciDoBetween[1].in_city}]]*/);
+        incheon_out = (parseInt(/*[[${ciDoBetween[1].out_city}]]*/));
+        other_in = (parseInt(/*[[${ciDoBetween[2].in_city}]]*/));
+        other_out = (parseInt(/*[[${ciDoBetween[2].out_city}]]*/));
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      google.charts.load("current", {packages:["bar"]});
+      google.charts.setOnLoadCallback(barchart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['전입 계', amount_in ],
+          ['전출 계', amount_out ]
+        ]);
+
+        var options = {
+          title: "종로구 전체 전입/전출",
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+
+       function barchart() {
+        var data = new google.visualization.arrayToDataTable([
+          ['', '전입', '전입', '전출'],
+          ['전체', amount_in,amount_in, amount_out],
+          ['인천/경기', incheon_in,incheon_in, incheon_out],
+          ['그외', other_in,other_in, other_out]
+        ]);
+
+        var options = {
+          chart: {
+            title: '종로구',
+            subtitle: '전체 인천/경기 그외'
+          },
+          bars: 'horizontal', // Required for Material Bar Charts.
+        };
+
+      var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+      chart.draw(data, options);
+    }
+
+</script>
+<th:block layout:fragment="css">
+    <style>
+        *{margin:0 auto; padding:0; list-style:none;}
+        a{text-decoration:none; color:#000;}
+
+        nav{width:100%;border-bottom:1px solid #ddd;}
+        .container-fluid{width:1300px; height:60px; background:#fff; }
+        .logo{float:left; margin-left:30px; font-size:20px; font-weight:bold; line-height:60px;}
+        .navbar-collapse{float:left;}
+        .navbavUl{margin-left:200px;}
+        .navbavUl > li{float:left; line-height:60px; text-align:center; width:200px;}
+        .navbavUl > li:hover > a{color:#777;}
+
+        .chart{width:100%; margin-top:50px; height:350px;}
+        #piechart_3d{width:35%; float:left; height:300px; margin-left:300px;
+        margin-top:20px;}
+        #barchart_material{width:35%; float:left; height:300px;}
+        table{border-collapse:collapse; width:1500px; }
+        th{border-top:1px solid #ddd; border-bottom:1px solid #ddd;
+        padding:10px;}
+        td{border-bottom:1px solid #ddd; padding:10px; }
+
+        .category{width:100%; height:50px;padding-top:30px; position:relative; }
+
+        .gubun_txt{margin-bottom:10px;font-size:12px; font-weight:bold;}
+        .item_group1{position:absolute; top:20px; right:300px;}
+        .item_txt1{margin-bottom:10px; font-size:12px; font-weight:bold;}
+
+        .form-control{width:200px; height:20px;text-align:center; color:#333; font-size:14px;}
+        .category_button{position:absolute; top:20px; right:200px;}
+        .category_button input{width:100px; height:20px; background:#777; color:#eee; border:none;
+        margin-top:27px; text-align:center;}
+
+        .nation_page{margin-top:50px; height:60px; width:100%; position:relative;}
+        .pagination_ul{position:absolute; left:50%; transform: translateX(-50%);}
+        .pagination_ul > li{float:left; width:40px; border:1px solid #eee;
+        line-height:40px; text-align:center; font-size:17px;}
+        .pagination_ul > li:hover{background:#eee;}
+        .pagination_ul > li:first-child{width:100px;}
+        .pagination_ul > li:last-child{width:100px;}
+        .pagination_ul > li > a{}
+        .page-item.on{display:none;}
+        .page_num.active {background:#ddd;}
+
+        .form-inline{}
+
+        select{margin-right:10px;}
+
+    </style>
+</th:block>
+<body>
+<div th:replace="fragments/header::header"></div>
+
+<div class="chart">
+    <div id="piechart_3d"></div>
+    <div id="barchart_material"></div>
+</div>
+
+<div class="category">
+    <div class="item_group1">
+        <div class="item_txt1">인구이동</div>
+        <select class="form-control" id="item_value1">
+            <option value="old_sell">구별/월별</option>
+            <option value="sex_sell">시도간 인구이동</option>
+            <option value="part_sell">분기당매출,점포수</option>
+        </select>
+    </div>
+
+    <div class="category_button">
+        <input id="searchBtn" value="검색">
+    </div>
+</div>
+
+<form th:action="@{'/apiname/'}" method="get" role="form">
+    <table>
+        <thead>
+        <tr align="center">
+            <th>번호</th>
+            <th>자치구별</th>
+            <th>구분별</th>
+            <th>전입</th>
+            <th>전출</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr align="center" th:each="list : ${ciDoBetween}">
+            <td><span th:text="${list.id}"></span></td>
+            <td><span th:text="${list.ja_chi_gu}"></span></td>
+            <td><span th:text="${list.city_kyung}"></span></td>
+            <td><span th:text="${list.in_city}"></span></td>
+            <td><span th:text="${list.out_city}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+</form>
+</body>
+</html>
